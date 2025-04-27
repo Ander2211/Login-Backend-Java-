@@ -1,0 +1,12 @@
+com\garajeideas\login\jpaLogin\entity\User.class
+com\garajeideas\login\jpaLogin\controller\PublicController.class
+com\garajeideas\login\jpaLogin\repository\UserRepository.class
+com\garajeideas\login\jpaLogin\repository\EmpleadosRepository.class
+com\garajeideas\login\jpaLogin\service\impl\UserDetailsServiceImpl.class
+com\garajeideas\login\jpaLogin\controller\ApiController.class
+com\garajeideas\login\jpaLogin\entity\Empleados.class
+com\garajeideas\login\jpaLogin\JpaLoginApplication.class
+com\garajeideas\login\jpaLogin\controller\HomeController.class
+com\garajeideas\login\jpaLogin\config\SecurityConfig.class
+com\garajeideas\login\jpaLogin\controller\AuthController.class
+com\garajeideas\login\jpaLogin\entity\SecurityUser.class

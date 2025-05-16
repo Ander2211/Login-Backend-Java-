@@ -6,6 +6,7 @@ import com.garajeideas.login.jpaLogin.repository.EmpleadosRepository;
 import com.garajeideas.login.jpaLogin.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +18,7 @@ public class ApiController {
 
     private final UserRepository userRepository;
     private final EmpleadosRepository empleadosRepository;
+    private final PasswordEncoder passwordEncoder;
 
     // Endpoints para Users
     @GetMapping("/users")
@@ -32,8 +34,24 @@ public class ApiController {
     }
 
     @PostMapping("/users")
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        return ResponseEntity.ok(userRepository.save(user));
+    public ResponseEntity<?> createUser(@RequestBody User user) {
+        // Verificar si el usuario ya existe
+        if (userRepository.findByUsername(user.getUsername()) != null) {
+            return ResponseEntity.badRequest().body("El usuario ya existe");
+        }
+
+        // Encriptar la contraseña
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        
+        // Asignar rol por defecto si no se especifica
+        if (user.getRole() == null) {
+            user.setRole("USER");
+        }
+
+        User savedUser = userRepository.save(user);
+        // No devolver la contraseña en la respuesta
+        savedUser.setPassword(null);
+        return ResponseEntity.ok(savedUser);
     }
 
     @PutMapping("/users/{id}")
@@ -89,4 +107,4 @@ public class ApiController {
         empleadosRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }
-} 
+}
